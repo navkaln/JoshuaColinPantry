@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Txt from '../components/Txt.astro';
+import Draft from '../components/Draft.astro';
+import { getPage } from '../lib/content';
+import { FACTS, UNVERIFIED } from '../data/defaults';
+const p = await getPage('building');
+---
+<Base title="The Building" description="The history and Art Deco character of Griswold Hall, built in 1937 in Jackson Heights, Queens.">
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">The Building</p>
+      <h1>Built in 1937</h1>
+      <hr class="rule" />
+      <div class="grid-2">
+        <div>
+          <h2>History</h2>
+          <p>{p.text.history.v}</p>
+          <Txt t={p.text.historyMore} />
+          <h2>Art Deco character</h2>
+          <Txt t={p.text.character} />
+        </div>
+        <Photo img={p.images.facadeImage} ratio="4 / 5" sizes="(min-width: 48em) 36rem, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background: var(--color-paper-deep)">
+    <div class="wrap grid-2">
+      <div>
+        <h2>At a glance</h2>
+        <dl class="facts">
+          <div><dt>Name</dt><dd>Griswold Hall, a cooperative apartment building</dd></div>
+          <div><dt>Address</dt><dd>{FACTS.addressOneLine}</dd></div>
+          <div><dt>Corner</dt><dd>86th Street and 34th Avenue</dd></div>
+          <div><dt>Year built</dt><dd>1937</dd></div>
+          <div><dt>Stories</dt><dd>Six</dd></div>
+          <div><dt>Style</dt><dd>Art Deco; elevator prewar building</dd></div>
+          <div><dt>Residences</dt><dd>84 units</dd></div>
+        </dl>
+      </div>
+      <Photo img={p.images.lobbyImage} ratio="4 / 5" sizes="(min-width: 48em) 36rem, 100vw" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>The Jackson Heights Historic District</h2>
+      <p>Jackson Heights has a Historic District, designated on October 19, 1993. The Historic Districts Council describes Jackson Heights as the first and largest garden-apartment community in the United States.</p>
+      <p>Griswold Hall stands near the English Garden Homes.</p>
+      <Draft>{UNVERIFIED.landmark}</Draft>
+      <Draft>{UNVERIFIED.solar}</Draft>
+    </div>
+  </section>
+</Base>

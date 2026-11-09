@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Txt from '../components/Txt.astro';
+import { getPage } from '../lib/content';
+const p = await getPage('home');
+---
+<Base title="Griswold Hall" description="Griswold Hall is a cooperative apartment building in Jackson Heights, Queens.">
+  <section class="hero">
+    <Photo img={p.images.heroImage} eager sizes="100vw" />
+    <div class="wrap hero-copy">
+      <p class="eyebrow">Jackson Heights, Queens</p>
+      <h1>Welcome to Griswold Hall</h1>
+      <hr class="rule" />
+      <p>{p.text.intro.v}</p>
+      <Txt t={p.text.introMore} />
+      <nav class="link-row" aria-label="Explore">
+        <a class="button primary" href="/building/">The Building</a>
+        <a class="button" href="/amenities/">Amenities</a>
+        <a class="button" href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import Txt from '../components/Txt.astro';
+import Tag from '../components/Tag.astro';
+import { getPage } from '../lib/content';
+import { FACTS } from '../data/defaults';
+const p = await getPage('contact');
+---
+<Base title="Contact" description="Get in touch with Griswold Hall, 86-10 34th Avenue, Jackson Heights, Queens.">
+  <section class="section">
+    <div class="wrap grid-2">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h1>Say hello</h1>
+        <hr class="rule" />
+        <Txt t={p.text.intro} />
+        <p class="notice" id="form-status" role="status" hidden></p>
+        <form class="form" id="contact-form" method="post" action="/api/contact" novalidate>
+          <div class="field"><label for="name">Name</label><input id="name" name="name" type="text" autocomplete="name" required /></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required /></div>
+          <div class="field"><label for="message">Message</label><textarea id="message" name="message" required></textarea></div>
+          <div class="hp" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+          <input type="hidden" name="t" id="t" value="" />
+          <div><button class="button primary" type="submit">Send message</button></div>
+          <p><small>This form is not live yet. Nothing is sent.</small></p>
+        </form>
+      </div>
+      <div>
+        <h2>Find us</h2>
+        <address style="font-style: normal">
+          <p>{FACTS.address[0]}<br />{FACTS.address[1]}</p>
+          <p>{FACTS.corner}.</p>
+        </address>
+        <p><a class="button" href={FACTS.mapUrl} rel="noopener">Open map</a></p>
+      </div>
+    </div>
+  </section>
+  <script>
+    // Spam protection: honeypot field + minimum fill time (checked by the handler).
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    const status = document.getElementById('form-status')!;
+    (document.getElementById('t') as HTMLInputElement).value = String(Date.now());
+    const say = (m: string) => { status.textContent = m; status.hidden = false; status.focus?.(); };
+    if (new URLSearchParams(location.search).get('received')) say('Thank you. This form is not live yet, so your message was only logged on the local test server and not sent.');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      try {
+        const r = await fetch(form.action, { method: 'POST', headers: { Accept: 'application/json', 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(form) as any) });
+        if (!r.ok) throw new Error(String(r.status));
+        form.reset();
+        say('Thank you. This form is not live yet, so nothing was sent.');
+      } catch {
+        say('This form is not live yet, so nothing was sent.');
+      }
+    });
+  </script>
+</Base>

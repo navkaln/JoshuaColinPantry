@@ -1,0 +1,16 @@
+---
+import { Image } from 'astro:assets';
+import Tag from './Tag.astro';
+import type { Img } from '../lib/content';
+interface Props { img: Img; sizes?: string; ratio?: string; eager?: boolean; }
+const { img, sizes = '(min-width: 72rem) 72rem, 100vw', ratio, eager = false } = Astro.props;
+const local = import.meta.glob('../assets/placeholders/*.jpg', { eager: true, import: 'default' }) as Record<string, ImageMetadata>;
+const src = local[`../assets/placeholders/${img.slot}.jpg`];
+const widths = [480, 800, 1200, 1600];
+---
+<figure class="photo" data-slot={img.slot} data-placeholder={img.ph ? 'photo' : undefined} style={ratio ? `--ratio:${ratio}` : undefined}>
+  {img.url
+    ? <img src={`${img.url}?w=1200&auto=format`} srcset={widths.map((w) => `${img.url}?w=${w}&auto=format ${w}w`).join(', ')} sizes={sizes} alt={img.alt} loading={eager ? 'eager' : 'lazy'} decoding="async" width="1200" height="800" />
+    : <Image src={src} alt={img.alt} widths={widths} sizes={sizes} format="webp" loading={eager ? 'eager' : 'lazy'} />}
+  {img.ph && <Tag />}
+</figure>

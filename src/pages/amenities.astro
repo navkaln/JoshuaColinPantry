@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Txt from '../components/Txt.astro';
+import { getPage } from '../lib/content';
+const p = await getPage('amenities');
+const t = p.text;
+const sizes = '(min-width: 48em) 36rem, 100vw';
+---
+<Base title="Amenities" description="Staff, a children's playroom, a landscaped rear garden, and a dog run at Griswold Hall.">
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Amenities</p>
+      <h1>Shared spaces</h1>
+      <hr class="rule" />
+      <Txt t={t.intro} />
+      <div class="cards">
+        <article class="card">
+          <div class="card-body">
+            <h2>Live-in super and porter</h2>
+            <p>{t.staffBody.v}</p>
+            <Txt t={t.staffMore} />
+          </div>
+        </article>
+        <article class="card">
+          <Photo img={p.images.playroomImage} sizes={sizes} ratio="3 / 2" />
+          <div class="card-body">
+            <h2>Children’s playroom</h2>
+            <p>{t.playroomBody.v}</p>
+            <Txt t={t.playroomMore} />
+          </div>
+        </article>
+        <article class="card">
+          <Photo img={p.images.gardensImage} sizes={sizes} ratio="3 / 2" />
+          <div class="card-body">
+            <h2>Landscaped rear garden</h2>
+            <p>{t.gardenBody.v}</p>
+            <Txt t={t.gardenMore} />
+          </div>
+        </article>
+        <article class="card">
+          <Photo img={p.images.dogRunImage} sizes={sizes} ratio="3 / 2" />
+          <div class="card-body">
+            <h2>Dog run</h2>
+            <p>{t.dogRunBody.v}</p>
+            <Txt t={t.dogRunMore} />
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</Base>

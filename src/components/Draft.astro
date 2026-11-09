@@ -1,0 +1,10 @@
+---
+// Unverified copy: only rendered when SHOW_UNVERIFIED=true.
+import { SHOW_UNVERIFIED } from '../lib/flags';
+---
+{SHOW_UNVERIFIED && (
+  <aside class="draft" data-unverified>
+    <span class="draft-label">Draft: pending board confirmation</span>
+    <p><slot /></p>
+  </aside>
+)}

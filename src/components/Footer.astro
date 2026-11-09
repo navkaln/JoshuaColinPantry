@@ -1,0 +1,13 @@
+---
+import { FACTS } from '../data/defaults';
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <span class="brand">Griswold Hall</span>
+    <address>
+      <p>{FACTS.address[0]}<br />{FACTS.address[1]}</p>
+      <p>{FACTS.corner}.</p>
+    </address>
+    <p><a href={FACTS.mapUrl} rel="noopener">View on a map</a></p>
+  </div>
+</footer>

@@ -1,0 +1,8 @@
+---
+// Renders a content field. Placeholder (Latin) text gets data-placeholder + a tag.
+import Tag from './Tag.astro';
+const { t, as: El = 'p', class: cls } = Astro.props;
+---
+{t.ph
+  ? <El class={cls} data-placeholder="text">{t.v}<Tag /></El>
+  : <El class={cls}>{t.v}</El>}

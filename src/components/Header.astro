@@ -1,0 +1,16 @@
+---
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const links = [['/', 'Home'], ['/building/', 'The Building'], ['/amenities/', 'Amenities'], ['/contact/', 'Contact']];
+---
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="/">Griswold Hall</a>
+    <nav class="nav" aria-label="Main">
+      <ul>
+        {links.map(([href, label]) => (
+          <li><a href={href} aria-current={(href.replace(/\/$/, '') || '/') === path ? 'page' : undefined}>{label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
